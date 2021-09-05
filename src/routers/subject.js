@@ -6,7 +6,7 @@ const Subject = require('../models/subject')
 router.get('/getall',async (req,res)=>{
     try{
         const subjects = await Subject.findAll()
-        res.status(500).send({subjects})
+        res.status(200).send({subjects})
     }catch(error){
         res.status(500).send({error:error.message})
     }
