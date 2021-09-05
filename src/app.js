@@ -1,10 +1,12 @@
 const express = require('express')
+const subjectRouter = require('./routers/subject')
 
 const app = express()
 
 const port = process.env.PORT
 
 app.use(express.json())
+app.use('/subject',subjectRouter)
 
 app.get('/health',(req,res)=>{
     res.send({status:'This service is healthy.'})
