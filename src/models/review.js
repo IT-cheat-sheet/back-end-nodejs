@@ -15,8 +15,7 @@ const Review = sequelize.define('reviews',{
         type: DataTypes.STRING(5000),
         allowNull: false,
     },
-    //review Not reivew
-    reivewLink: {
+    reviewLink: {
         type: DataTypes.STRING(500),
         allowNull: true
     },
