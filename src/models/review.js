@@ -3,8 +3,13 @@ const sequelize = require('../db/sequelize')
 const Topic = require('./topic')
 const Review = sequelize.define('reviews',{
     reviewId: {
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER(7).ZEROFILL.UNSIGNED,
+        validate:{
+            min: 0,
+            max: 9999999
+        },
         allowNull: false
     },
     reviewTitle: {
