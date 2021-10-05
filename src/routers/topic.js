@@ -7,7 +7,7 @@ router.post('/add', async (req, res) => {
         await Topic.create(req.body)
         res.send('Topic has been created')
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -15,11 +15,11 @@ router.get('/getAll',async(req,res)=>{
     try {
         const topic = await Topic.findAll()
         if(!topic){
-            res.send('Item not found!')
+            res.status(500).send('Item not found!')
         }
         res.send(topic)
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -36,7 +36,7 @@ router.get('/get/:id', async (req, res) => {
         }
         res.send(topic)
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -59,7 +59,7 @@ router.put('/edit/:id', async (req, res) => {
         })
         res.send('Edit success!')
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({error:error.message})
     }
 })
 
@@ -77,7 +77,7 @@ router.delete('/delete/:id', async (req, res) => {
             res.status(400).send("Item can't delete with that Id!")
         }
     } catch (error) {
-        res.status(500).send(error)
+        res.status(500).send({error:error.message})
     }
 }) 
 module.exports = router

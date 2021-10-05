@@ -37,6 +37,6 @@ const Review = sequelize.define('reviews',{
     timestamps: false
 })
 
-
+Topic.hasMany(Review,{foreignKey: 'topicId'})
 Review.belongsTo(Topic, { foreignKey: 'topicId' })
 module.exports = Review
