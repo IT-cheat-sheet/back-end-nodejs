@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../db/sequelize");
 const Admins = require("./admins");
 
-const tokenAdmins = sequelize.define("admins", {
+const tokenAdmins = sequelize.define("tokensadmin", {
   tokenId: {
     type: DataTypes.INTEGER(10).UNSIGNED.ZEROFILL,
     allowNull: false,
