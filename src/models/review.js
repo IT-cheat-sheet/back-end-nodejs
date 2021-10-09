@@ -3,8 +3,13 @@ const sequelize = require('../db/sequelize')
 const Topic = require('./topic')
 const Review = sequelize.define('reviews',{
     reviewId: {
+        autoIncrement: true,
         primaryKey: true,
         type: DataTypes.INTEGER(7).ZEROFILL.UNSIGNED,
+        validate:{
+            min: 0,
+            max: 9999999
+        },
         allowNull: false
     },
     reviewTitle: {
@@ -15,8 +20,7 @@ const Review = sequelize.define('reviews',{
         type: DataTypes.STRING(5000),
         allowNull: false,
     },
-    //review Not reivew
-    reivewLink: {
+    reviewLink: {
         type: DataTypes.STRING(500),
         allowNull: true
     },
@@ -33,6 +37,6 @@ const Review = sequelize.define('reviews',{
     timestamps: false
 })
 
-
+Topic.hasMany(Review,{foreignKey: 'topicId'})
 Review.belongsTo(Topic, { foreignKey: 'topicId' })
 module.exports = Review
