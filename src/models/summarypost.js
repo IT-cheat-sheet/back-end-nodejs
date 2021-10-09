@@ -23,7 +23,7 @@ const SummaryPost = sequelize.define('summarypost',{
         allowNull: false
     },
     blobFile:{
-        type: DataTypes.BLOB
+        type: DataTypes.BLOB('long')
     },
     linkAttachment:{
         type: DataTypes.STRING(500)
