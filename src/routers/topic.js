@@ -5,7 +5,7 @@ const Topic = require('../models/topic')
 router.post('/add', async (req, res) => {
     try {
         await Topic.create(req.body)
-        res.send('Topic has been created')
+        res.send({message:'Topic has been created'})
     } catch (error) {
         res.status(500).send({error:error.message})
     }
@@ -15,9 +15,9 @@ router.get('/getAll',async(req,res)=>{
     try {
         const topic = await Topic.findAll()
         if(!topic){
-            res.status(500).send('Item not found!')
+            res.status(400).send({message:'Item not found!'})
         }
-        res.send(topic)
+        res.status(200).send({data:topic})
     } catch (error) {
         res.status(500).send({error:error.message})
     }
@@ -32,9 +32,9 @@ router.get('/get/:id', async (req, res) => {
             }
         })
         if (!topic) {
-            res.status(500).send('Item not found!')
+            res.status(400).send({message:'Item not found!'})
         }
-        res.send(topic)
+        res.status(200).send({data:topic})
     } catch (error) {
         res.status(500).send({error:error.message})
     }
@@ -48,7 +48,7 @@ router.put('/edit/:id', async (req, res) => {
         return allowedKey.includes(checkKeyBody)
     })
     if (!validKey) {
-        return res.status(400).send('Invalid key!')
+        return res.status(400).send({message:'Invalid key!'})
     }
     const id = req.params.id
     
@@ -57,7 +57,7 @@ router.put('/edit/:id', async (req, res) => {
                 topicId: id
             }
         })
-        res.send('Edit success!')
+        res.status(201).send({message:'Edit success!'})
     } catch (error) {
         res.status(500).send({error:error.message})
     }
@@ -72,9 +72,9 @@ router.delete('/delete/:id', async (req, res) => {
                 topicId: id
             }
         })
-            res.send('Item has been deleted')
+            res.send({message:'Item has been deleted'})
         if (!topicDelete) {
-            res.status(400).send("Item can't delete with that Id!")
+            res.status(400).send({message:"Item can't delete with that Id!"})
         }
     } catch (error) {
         res.status(500).send({error:error.message})
