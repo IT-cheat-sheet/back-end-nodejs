@@ -144,7 +144,7 @@ router.get('/get/:id', async (req, res) => {
     const id = req.params.id
     try {
         const review = await Review.findOne({
-            attributes: { exclude: ['topicId'] },
+            attributes: { exclude: ['reviewImage','topicId'] },
             where: {
                 reviewID: id
             },
