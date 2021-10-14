@@ -84,31 +84,26 @@ router.get('/getAll', async (req, res) => {
         //ลิมิตของไอเทม
         const limit = parseInt(req.query.pageSize);
         //เรียงข้อมูล โดยดั้งเดิมเป็น topicName
-        const sortBy = !req.query.sortBy ? 'topicName' : req.query.sortBy
+        const sortBy = !req.query.sortBy ? 'reviewId' : req.query.sortBy
         //เรียงลำดับจากมากไปน้อย หรือ น้อยไปมาก
         const sortDesc = req.query.sortDesc == 'true' ? 'DESC' : 'ASC'
         //ใช้เพื่อค้นหาคำใน Review (Title,Content,Reviewer)
         !req.query.searchWord ? '' : req.query.searchWord
         //ตัวอย่าง
-        //search=&page=0&pageSize=5&sortBy=topicName&searchWord=search&sortDesc=false
+        //search=&page=0&pageSize=5&sortBy=reviewId&searchWord=search&sortDesc=false
 
-        const reviewSortByTopic = await Topic.findAll({
-            attributes: { exclude: ['topicId'] },
+        const searchReview = await Review.findAndCountAll({
+            attributes: { exclude: ['reviewImage'] },
             include: {
-                model: Review
-            },
-            where: {
-                topicName: {
-                    [Op.substring]: req.query.searchTopic
+                model: Topic,
+                
+                where: {
+                    topicName: {
+                        [Op.substring]: req.query.searchTopic
+                    },
                 },
+                
             },
-            order: [
-                [sortBy, sortDesc]
-            ],
-            limit,
-            offset
-        })
-        const searchReview = await Review.findAll({
             where: {
                 [Op.or]: [{
                     reviewTitle: {
@@ -123,18 +118,16 @@ router.get('/getAll', async (req, res) => {
                         [Op.substring]: req.query.searchWord
                     }
                 }]
-
+                
             },
+            order: [
+                [sortBy,sortDesc]
+            ],
             limit,
             offset
         })
-
-        if (!req.query.searchWord) {
-            res.status(200).send({ data: reviewSortByTopic })
-        } else {
-            res.status(200).send({ data: searchReview })
-        }
-
+        totalPage = Math.ceil(searchReview.count / limit)
+        res.status(200).send({ data: searchReview, totalPage })
     } catch (error) {
         res.status(500).send({ error: error.message })
     }
@@ -144,7 +137,7 @@ router.get('/get/:id', async (req, res) => {
     const id = req.params.id
     try {
         const review = await Review.findOne({
-            attributes: { exclude: ['reviewImage','topicId'] },
+            attributes: { exclude: ['reviewImage', 'topicId'] },
             where: {
                 reviewID: id
             },
@@ -222,7 +215,7 @@ router.get('/hotReview', async (req, res) => {
 
 router.get('/random', async (req, res) => {
     try {
-        const randomReview = await Review.findAll({attributes: {exclude: ['reviewImage']}, order: Sequelize.literal('rand()'), limit: 4 })
+        const randomReview = await Review.findAll({ attributes: { exclude: ['reviewImage'] }, order: Sequelize.literal('rand()'), limit: 4 })
         res.status(200).send({ data: randomReview })
     } catch (error) {
         res.status(500).send({ error: error.message })
