@@ -78,13 +78,13 @@ router.get('/image/:reviewId', async (req, res) => {
 router.get('/getAll', async (req, res) => {
     try {
         //ค้นหาตามชื่อ topic
-        req.query.searchTopic = !req.query.searchTopic ? '' : req.query.searchTopic
+        req.query.sortTopic = !req.query.sortTopic ? '' : req.query.sortTopic
         //เลขหน้า
         const offset = parseInt(req.query.page) * parseInt(req.query.pageSize);
         //ลิมิตของไอเทม
         const limit = parseInt(req.query.pageSize);
         //เรียงข้อมูล โดยดั้งเดิมเป็น topicName
-        const sortBy = !req.query.sortBy ? 'reviewId' : req.query.sortBy
+        const sortBy = !req.query.sortReview ? 'reviewId' : req.query.sortReview
         //เรียงลำดับจากมากไปน้อย หรือ น้อยไปมาก
         const sortDesc = req.query.sortDesc == 'true' ? 'DESC' : 'ASC'
         //ใช้เพื่อค้นหาคำใน Review (Title,Content,Reviewer)
@@ -99,7 +99,7 @@ router.get('/getAll', async (req, res) => {
                 
                 where: {
                     topicName: {
-                        [Op.substring]: req.query.searchTopic
+                        [Op.substring]: req.query.sortTopic
                     },
                 },
                 
