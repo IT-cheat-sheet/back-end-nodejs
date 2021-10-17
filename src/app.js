@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); 
 const subjectRouter = require("./routers/subject");
 const semesterRouter = require("./routers/semester");
 const summarypostRouter = require("./routers/summarypost");
@@ -8,6 +9,11 @@ const adminRouter = require("./routers/admin");
 const app = express();
 
 const port = process.env.PORT;
+
+app.use(cors({
+  origin: process.env.ORIGIN,
+  methods: ['GET', 'PUT', 'POST', 'DELETE', 'HEAD', 'OPTION']
+}))
 
 app.use(express.json());
 app.use("/subject", subjectRouter);
