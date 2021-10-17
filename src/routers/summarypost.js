@@ -21,7 +21,9 @@ const upload = multer({
 
 router.get('/getall',async (req,res)=>{
     try{
+        req.query.semesterFilter = !req.query.semesterFilter ? Array.from(Array(await Semester.count()), (_, i) => i+1): parseInt(req.query.semesterFilter)
         req.query.pageNumber = !req.query.pageNumber ? 1 : req.query.pageNumber
+        const sortby = [(req.query.sortBy ? req.query.sortBy : 'summaryPostId'),(req.query.sortType ? req.query.sortType: 'ASC')]
         const search = req.query.search ? req.query.search : ''
         const limit = parseInt(req.query.pageSize)
         const offset = limit * (parseInt(req.query.pageNumber)-1)
@@ -35,14 +37,25 @@ router.get('/getall',async (req,res)=>{
                     summaryContent:{
                         [Op.substring]: search
                     }
+                },{
+                    posterName:{
+                        [Op.substring]: search
+                    }
                 }]
             },
             attributes:{
                 exclude:['blobFile','subjectNumber','semesterNumber']
             },
-            include:[Semester,Subject],
+            include:[{
+                model: Semester,
+                where:{
+                    semesterNumber: req.query.semesterFilter
+                },
+                order:[['semesterNumber','ASC']]
+            },Subject],
             limit,
-            offset
+            offset,
+            order: [sortby]
         })
         totalPage = Math.ceil(summaryPosts.count / limit)
         res.status(200).send({summaryPosts,totalPage})
