@@ -96,13 +96,13 @@ router.get('/getAll', async (req, res) => {
             attributes: { exclude: ['reviewImage'] },
             include: {
                 model: Topic,
-                
+
                 where: {
                     topicName: {
                         [Op.substring]: req.query.sortTopic
                     },
                 },
-                
+
             },
             where: {
                 [Op.or]: [{
@@ -118,10 +118,10 @@ router.get('/getAll', async (req, res) => {
                         [Op.substring]: req.query.searchWord
                     }
                 }]
-                
+
             },
             order: [
-                [sortBy,sortDesc]
+                [sortBy, sortDesc]
             ],
             limit,
             offset
@@ -196,18 +196,20 @@ router.delete('/delete/:id', async (req, res) => {
 
 router.get('/hotReview', async (req, res) => {
     try {
-        const maxReview = await Review.findAll({
-            attributes: [[sequelize.fn('max', sequelize.col('topicId')), 'maxTopicId',]],
-            raw: true
+        console.log(req.body.topicId)
+        const hotReview = await Review.findAll({
+            attributes: { exclude: ['reviewImage'] },
+            include: {
+                model: Topic,
+                where: {
+                    topicId: req.body.topicId
+                }
+            },
+            order: Sequelize.literal('rand()'), limit: 1
         })
-        const id = maxReview.map(value => Object.values(value)[0])
-        console.log(id)
-        const hotReview = await Topic.findOne({
-            where: {
-                topicId: id
-            }
-        })
-        res.status(200).send({ data: hotReview })
+        console.log(hotReview)
+        if(!hotReview) throw Error()
+        res.status(200).send({data:hotReview})
     } catch (error) {
         res.status(500).send({ error: error.message })
     }
