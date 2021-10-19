@@ -1,0 +1,12 @@
+version: "3.6"
+services:
+  backend:
+    build: .
+    container_name: backend
+    ports:
+       - "3000:3000"
+      
+networks:
+    default:
+        external:
+            name: it-cheat-sheet-network
