@@ -36,7 +36,7 @@ jobs:
          host: ${{ secrets.HOST }}
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
-         source: ./docker-compose.yml
+         source: ./docker-compose.dev.yml
          target: ./backend
     
   deploy:
@@ -51,6 +51,6 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          script: |
-           docker-compose -f backend/docker-compose.yml down 
+           docker-compose -f backend/docker-compose.dev.yml down 
            docker pull ghcr.io/it-cheat-sheet/back-end-nodejs:main
-           docker-compose -f backend/docker-compose.yml up -d 
+           docker-compose -f backend/docker-compose.dev.yml up -d 
