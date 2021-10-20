@@ -194,24 +194,24 @@ router.delete('/delete/:id', async (req, res) => {
     }
 })
 
-router.get('/hotReview', async (req, res) => {
+router.get('/hotReview/:topicId', async (req, res) => {
     try {
-        console.log(req.body.topicId)
+        console.log(req.params.topicId)
         const hotReview = await Review.findAll({
             attributes: { exclude: ['reviewImage'] },
             include: {
                 model: Topic,
                 where: {
-                    topicId: req.body.topicId
+                    topicId: req.params.topicId
                 }
             },
             order: Sequelize.literal('rand()'), limit: 1
         })
         console.log(hotReview)
-        if(!hotReview) throw Error()
+        if(hotReview.length === 0) throw Error("Not found review")
         res.status(200).send({data:hotReview})
     } catch (error) {
-        res.status(500).send({ error: error.message })
+        res.status(500).send({error:error.message})
     }
 })
 

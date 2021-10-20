@@ -13,7 +13,11 @@ router.post('/add', async (req, res) => {
 
 router.get('/getAll',async(req,res)=>{
     try {
-        const topic = await Topic.findAll()
+        const topic = await Topic.findAll({
+            order:[
+                ['topicId','ASC']
+            ]    
+        })
         if(!topic){
             res.status(400).send({message:'Item not found!'})
         }

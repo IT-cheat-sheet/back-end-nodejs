@@ -5,7 +5,11 @@ const Semester = require('../models/semester')
 
 router.get('/getall',async (req,res)=>{
     try{
-        const semesters = await Semester.findAll()
+        const semesters = await Semester.findAll({
+            order:[
+                ['semesterNumber','ASC']
+            ]
+        })
         res.status(200).send({semesters})
     }catch(error){
         res.status(500).send({error:error.message})
