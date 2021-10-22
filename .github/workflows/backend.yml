@@ -37,7 +37,7 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          source: ./docker-compose.dev.yml
-         target: ./docker-compose.backend
+         target: ./backend
     
   deploy:
       needs: build
