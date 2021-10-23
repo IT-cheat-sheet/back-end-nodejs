@@ -6,6 +6,7 @@ const summarypostRouter = require("./routers/summarypost");
 const topicRouter = require("./routers/topic");
 const reviewRouter = require("./routers/review");
 const adminRouter = require("./routers/admin");
+const reportRouter = require('./routers/report')
 const app = express();
 
 const port = process.env.PORT;
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/subject", subjectRouter);
 app.use("/semester", semesterRouter);
 app.use("/summarypost", summarypostRouter);
+app.use("/report",reportRouter)
 
 //Tien
 app.use("/topic", topicRouter);
