@@ -37,7 +37,12 @@ router.post("/login", async (req, res) => {
       token,
       adminId: findAdmin.adminId,
     });
-    res.status(200).send({ account: findAdmin, token: token });
+    res
+      .status(200)
+      .send({
+        account: { adminId: findAdmin.adminId, userName: findAdmin.userName },
+        token: token,
+      });
   } catch (error) {
     res.status(400).send({ error: error.message });
   }
