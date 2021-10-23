@@ -75,13 +75,39 @@ router.get("/getAll", auth, async (req, res) => {
   }
 });
 
+router.post("/add", auth, async (req, res) => {
+  try {
+    await Report.create(req.body);
+    res.status(201).send({ result: "Report has been created" });
+  } catch (error) {
+    res.status(500).send({ error: error.message });
+  }
+});
 
-router.post('/add',async (req, res) => {
-    try {
-        await Report.create(req.body)
-        res.status(201).send({result:'Report has been created'})
-    } catch (error) {
-        res.status(500).send({ error: error.message })
+router.put("/setReadStatus/:reportId", auth, async (req, res) => {
+  try {
+    const reportNumber = req.params.reportId;
+    const updates = Object.keys(req.body);
+    const allowedUpdates = ["readStatus"];
+    const isValidOperation = updates.every((update) =>
+      allowedUpdates.includes(update)
+    );
+    if (!isValidOperation) {
+      return res.status(400).send({ error: "Invalid updates!" });
     }
-})
-module.exports = router
+    const reportFromId = await Report.update(req.body, {
+      where: {
+        reportNumber,
+      },
+    });
+    if (reportFromId[0] === 0) {
+      return res.status(400).send({
+        error: "report not found or noting change in report!",
+      });
+    }
+    res.status(201).send({ status: "update successful !" });
+  } catch (error) {
+    res.status(400).send({ error: error });
+  }
+});
+module.exports = router;
