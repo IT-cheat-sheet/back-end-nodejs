@@ -6,7 +6,7 @@ const Review = require("../models/review");
 const summaryPost = require("../models/summarypost");
 const auth = require("../middleware/auth");
 
-router.get("/getall", auth, async (req, res) => {
+router.get("/getAll", auth, async (req, res) => {
   try {
     req.query.readStatus = !req.query.readStatus ? 0 : req.query.readStatus;
     let reports = null;
