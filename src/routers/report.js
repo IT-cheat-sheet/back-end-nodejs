@@ -5,7 +5,7 @@ const Report = require('../models/reports')
 const Review = require('../models/review')
 const summaryPost = require('../models/summarypost')
 
-router.get('/getall',async(req,res)=>{
+router.get('/getAll',async(req,res)=>{
     try{
         req.query.readStatus = !req.query.readStatus ? 0 : req.query.readStatus
         let reports = null;
