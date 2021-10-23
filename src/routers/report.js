@@ -95,6 +95,11 @@ router.put("/setReadStatus/:reportId", auth, async (req, res) => {
     if (!isValidOperation) {
       return res.status(400).send({ error: "Invalid updates!" });
     }
+    let status = parseInt(req.body.readStatus);
+
+    if (status > 1 || status < 0) {
+      return res.status(400).send({ error: "Status must be 0 or 1 only!" });
+    }
     const reportFromId = await Report.update(req.body, {
       where: {
         reportNumber,
