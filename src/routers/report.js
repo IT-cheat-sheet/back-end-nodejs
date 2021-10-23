@@ -65,4 +65,13 @@ router.get('/getAll',async(req,res)=>{
     }
 })
 
+
+router.post('/add',async (req, res) => {
+    try {
+        await Report.create(req.body)
+        res.status(201).send({result:'Report has been created'})
+    } catch (error) {
+        res.status(500).send({ error: error.message })
+    }
+})
 module.exports = router
