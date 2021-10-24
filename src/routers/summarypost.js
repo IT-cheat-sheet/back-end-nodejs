@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const auth = require("../middleware/auth");
 const router = new express.Router();
-const { Op } = require("sequelize");
+const { Op, Sequelize } = require("sequelize");
 const SummaryPost = require("../models/summarypost");
 const Semester = require("../models/semester");
 const Subject = require("../models/subject");
@@ -122,6 +122,23 @@ router.get("/getFile/:summaryPostId", async (req, res) => {
     res.status(404).send({ error: "File not found" });
   }
 });
+
+router.get("/hotSheet/:semesterNumber", async(req,res)=>{
+  try{
+    const hotSheet = await SummaryPost.findAll({
+      attributes:{
+        exclude:['blobFile']
+      },
+      include:[Semester,Subject],
+      order: Sequelize.literal("rand()"),
+      limit: 1,
+    })
+    if (hotSheet.length === 0) throw Error("Sheet not found.");
+    res.status(200).send({ data: hotSheet });
+  }catch(error){
+    res.status(500).send({ error: error.message });
+  }
+})
 
 router.post("/create", async (req, res) => {
   try {
