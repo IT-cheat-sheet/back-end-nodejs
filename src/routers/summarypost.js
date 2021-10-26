@@ -6,6 +6,7 @@ const { Op, Sequelize } = require("sequelize");
 const SummaryPost = require("../models/summarypost");
 const Semester = require("../models/semester");
 const Subject = require("../models/subject");
+const Report = require("../models/reports");
 
 const upload = multer({
   limits: {
@@ -212,9 +213,14 @@ router.put("/edit/:summaryPostId", auth, async (req, res) => {
   }
 });
 
-router.delete("/delete/:summaryPostId", auth, async (req, res) => {
+router.delete("/delete/:summaryPostId", async (req, res) => {
   try {
     const summaryPostId = req.params.summaryPostId;
+    await Report.destroy({
+      where:{
+        summaryPostId
+      }
+    })
     const deletedSummaryPost = await SummaryPost.destroy({
       where: {
         summaryPostId,

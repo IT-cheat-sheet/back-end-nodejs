@@ -7,6 +7,7 @@ const { Op, Sequelize } = require("sequelize");
 const fs = require("fs");
 const sequelize = require("../db/sequelize");
 const auth = require("../middleware/auth");
+const Report = require("../models/reports")
 
 const upload = multer({
   limits: {
@@ -197,9 +198,14 @@ router.put("/edit/:id", auth, async (req, res) => {
 router.delete("/delete/:id", auth, async (req, res) => {
   try {
     const id = req.params.id;
+    await Report.destroy({
+      where: {
+        reviewId: id,
+      },
+    })
     const reviewDelete = await Review.destroy({
       where: {
-        reviewID: id,
+        reviewId: id,
       },
     });
     res.send({ message: "Item has been deleted" });
