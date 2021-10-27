@@ -51,6 +51,16 @@ router.get("/getall", async (req, res) => {
               [Op.substring]: search,
             },
           },
+          {
+            '$Subject.subjectId$':{
+              [Op.substring]: search
+            }
+          },
+          {
+            '$Subject.subjectName$':{
+              [Op.substring]: search
+            }
+          }
         ],
       },
       attributes: {
