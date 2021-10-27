@@ -23,8 +23,9 @@ const upload = multer({
 
 router.post("/add", async (req, res) => {
   try {
-    await Review.create(req.body);
-    res.send({ result: "Review has been created" });
+    await Review.create(req.body).then((result)=>{
+    return res.status(200).send({result:{reviewId:result.reviewId}});
+    });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }

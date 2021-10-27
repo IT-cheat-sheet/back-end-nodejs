@@ -153,8 +153,10 @@ router.get("/hotSheet/:semesterNumber", async(req,res)=>{
 
 router.post("/create", async (req, res) => {
   try {
-    const newSummaryPost = await SummaryPost.create(req.body);
-    res.status(200).send({ status: "create successful !" });
+    const newSummaryPost = await SummaryPost.create(req.body).then((result) => {
+      return res.status(200).send({result:{summaryPostId:result.summaryPostId}});
+    });
+    // res.status(200).send({ status: "create successful !" });
   } catch (error) {
     res.status(500).send({ error: error.message });
   }
