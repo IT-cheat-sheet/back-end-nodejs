@@ -23,6 +23,9 @@ jobs:
          username: ${{ github.repository_owner }}
          password: ${{ secrets.ITCHEATSHEET_TOKEN }}
          
+    - name: Create env file
+      run: |
+          echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
          
     - name: Build image and push Dockerfile
       uses: docker/build-push-action@v2
