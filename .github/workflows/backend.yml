@@ -25,6 +25,7 @@ jobs:
          
     - name: Create env file
       run: |
+          touch .env
           echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
          
     - name: Build image and push Dockerfile
@@ -33,6 +34,7 @@ jobs:
         file: ./Dockerfile
         context: .
         push: true
+        build-args: MYSQL_URL=${{ secrets.MYSQL_URL }}
         tags: ghcr.io/it-cheat-sheet/back-end-nodejs:dev
    
     - name: Publish compose file
