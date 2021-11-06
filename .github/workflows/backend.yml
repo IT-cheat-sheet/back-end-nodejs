@@ -57,5 +57,5 @@ jobs:
          password: ${{ secrets.PASSWORD }}
          script: |
            docker-compose -f backend/docker-compose.dev.yml down 
-           docker pull ghcr.io/it-cheat-sheet/back-end-nodejs:dev
+           docker pull ghcr.io/it-cheat-sheet/back-end-nodejs:latest
            docker-compose -f backend/docker-compose.dev.yml up -d 
