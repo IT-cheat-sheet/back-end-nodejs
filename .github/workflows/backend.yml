@@ -26,6 +26,7 @@ jobs:
     - name: Create env file
       run: |
           touch .env
+          echo PORT=${{ secrets.PORT }} >> .env
           echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
          
     - name: Build docker image
@@ -56,6 +57,7 @@ jobs:
          username: ${{ secrets.USERNAME }}
          password: ${{ secrets.PASSWORD }}
          script: |
+           docker login -u ${{ github.repository_owner }} -p ${{ secrets.ITCHEATSHEET_TOKEN }}
            docker-compose -f backend/docker-compose.dev.yml down 
            docker pull ghcr.io/it-cheat-sheet/back-end-nodejs:latest
            docker-compose -f backend/docker-compose.dev.yml up -d 
