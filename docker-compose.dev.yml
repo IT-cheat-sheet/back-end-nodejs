@@ -1,7 +1,7 @@
 version: "3.6"
 services:
   backend:
-    build: ghcr.io/it-cheat-sheet/back-end-nodejs:latest
+    image: ghcr.io/it-cheat-sheet/back-end-nodejs:latest
     container_name: backend
     ports:
        - "3000:3000"
