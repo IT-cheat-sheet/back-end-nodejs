@@ -29,7 +29,7 @@ jobs:
           echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
          
     - name: Build docker image
-      run: docker build ghcr.io/it-cheat-sheet/back-end-nodejs:latest .
+      run: docker build . --file ./Dockerfile ghcr.io/it-cheat-sheet/back-end-nodejs:latest 
       
     - name: Push docker image to registry
       run: |
