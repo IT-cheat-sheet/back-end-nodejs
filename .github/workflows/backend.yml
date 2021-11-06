@@ -28,14 +28,12 @@ jobs:
           touch .env
           echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
          
-    - name: Build image and push Dockerfile
-      uses: docker/build-push-action@v2
-      with:
-        file: ./Dockerfile
-        context: .
-        push: true
-        build-args: MYSQL_URL=${{ secrets.MYSQL_URL }}
-        tags: ghcr.io/it-cheat-sheet/back-end-nodejs:dev
+    - name: Build docker image
+      run: docker build . -f Dockerfile ghcr.io/it-cheat-sheet/back-end-nodejs:latest
+      
+    - name: Push docker image to registry
+      run: |
+         docker push ghcr.io/it-cheat-sheet/back-end-nodejs:latest
    
     - name: Publish compose file
       uses: appleboy/scp-action@master
