@@ -28,6 +28,7 @@ jobs:
           touch .env
           echo PORT=${{ secrets.PORT }} >> .env
           echo MYSQL_URL=${{ secrets.MYSQL_URL }} >> .env
+          echo ORIGIN=${{ secrets.ORIGIN }} >> .env
          
     - name: Build docker image
       run: docker build . --file Dockerfile --tag ghcr.io/it-cheat-sheet/back-end-nodejs:latest 
