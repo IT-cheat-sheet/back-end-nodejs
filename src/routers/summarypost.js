@@ -74,7 +74,10 @@ router.get("/getall", async (req, res) => {
           },
           order: [["semesterNumber", "ASC"]],
         },
-        Subject,
+        {
+          model:Subject,
+          left:true
+        },
       ],
       limit,
       offset,
