@@ -100,7 +100,10 @@ router.get("/get/:summaryPostId", async (req, res) => {
       attributes: {
         exclude: ["blobFile", "subjectNumber", "semesterNumber"],
       },
-      include: [Semester, Subject],
+      include: [Semester, {
+        model: Subject,
+        as:'subjects'
+      }],
     });
     if (!summaryPost) {
       return res.status(400).send({ error: "summaryPost not found!" });
@@ -143,7 +146,10 @@ router.get("/hotSheet/:semesterNumber", async(req,res)=>{
       attributes:{
         exclude:['blobFile']
       },
-      include:[Semester,Subject],
+      include:[Semester,{
+        model: Subject,
+        as:'subjects'
+      }],
       order: Sequelize.literal("rand()"),
       limit: 1,
     })
