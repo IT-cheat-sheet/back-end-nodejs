@@ -30,7 +30,7 @@ const SummaryPost = sequelize.define('summarypost',{
     }
 })
 
-SummaryPost.belongsTo(Subject,{foreignKey:'subjectNumber'})
+SummaryPost.belongsTo(Subject,{foreignKey:'subjectNumber',as:'subjects'})
 SummaryPost.belongsTo(Semester,{foreignKey:'semesterNumber'})
 
 module.exports = SummaryPost
