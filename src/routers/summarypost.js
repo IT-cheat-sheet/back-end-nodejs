@@ -52,12 +52,12 @@ router.get("/getall", async (req, res) => {
             },
           },
           {
-            '$Subject.subjectId$':{
+            '$subjects.subjectId$':{
               [Op.substring]: search
             }
           },
           {
-            '$Subject.subjectName$':{
+            '$subjects.subjectName$':{
               [Op.substring]: search
             }
           }
@@ -75,8 +75,7 @@ router.get("/getall", async (req, res) => {
           order: [["semesterNumber", "ASC"]],
         },
         {
-          model:Subject,
-          left:true
+          model:Subject
         },
       ],
       limit,
