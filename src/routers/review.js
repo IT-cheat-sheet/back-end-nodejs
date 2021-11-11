@@ -35,7 +35,6 @@ router.post(
   "/file/upload/:reviewId",
   upload.single("image"),
   async (req, res) => {
-    console.log(req.file);
     if (req.file == undefined) {
       return res.send(`You must select a file.`);
     }
@@ -70,7 +69,6 @@ router.get("/image/:reviewId", async (req, res) => {
         reviewId: req.params.reviewId,
       },
     });
-    console.log(review);
     if (!review) {
       return res.status(404).send({ error: "reviewId not found!" });
     }
@@ -218,21 +216,16 @@ router.delete("/delete/:id", auth, async (req, res) => {
   }
 });
 
-router.get("/hotReview/:topicId", async (req, res) => {
+router.get("/hotReview", async (req, res) => {
   try {
-    console.log(req.params.topicId);
     const hotReview = await Review.findAll({
       attributes: { exclude: ["reviewImage"] },
       include: {
         model: Topic,
-        where: {
-          topicId: req.params.topicId,
-        },
       },
       order: Sequelize.literal("rand()"),
       limit: 1,
     });
-    console.log(hotReview);
     if (hotReview.length === 0) throw Error("Not found review");
     res.status(200).send({ data: hotReview });
   } catch (error) {
