@@ -23,6 +23,7 @@ router.get("/getAll", auth,async (req, res) => {
         },
         include: [{
           model: summaryPost,
+          as:'summarypost',
           attributes: {
             exclude: ["blobFile"],
           },
@@ -77,6 +78,7 @@ router.get("/getAll", auth,async (req, res) => {
           },
           {
             model: summaryPost,
+            as:'summarypost',
             attributes: {
               exclude: ["blobFile"],
             },

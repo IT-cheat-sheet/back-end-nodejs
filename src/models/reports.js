@@ -25,7 +25,7 @@ const Report = sequelize.define('reports',{
     }
 })
 
-Report.belongsTo(SummaryPost,{foreignKey:'summaryPostId',allowNull:true})
+Report.belongsTo(SummaryPost,{foreignKey:'summaryPostId',allowNull:true, as:'summarypost'})
 Report.belongsTo(Review,{foreignKey:'reviewId',allowNull:true})
 
 module.exports = Report
