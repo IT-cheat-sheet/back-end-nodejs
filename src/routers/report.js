@@ -44,6 +44,7 @@ router.get("/getAll", auth,async (req, res) => {
         },
         include: [{
           model: Review,
+          as:'reviews',
           attributes: {
             exclude: ["reviewImage"]
           },
@@ -64,7 +65,7 @@ router.get("/getAll", auth,async (req, res) => {
               }
             },
             {
-              '$Review.reviewTitle$': {
+              '$reviews.reviewTitle$': {
                 [Op.substring]: req.query.search
               }
             }
@@ -72,6 +73,7 @@ router.get("/getAll", auth,async (req, res) => {
         },
         include: [{
             model: Review,
+            as:'reviews',
             attributes: {
               exclude: ["reviewImage"],
             },
