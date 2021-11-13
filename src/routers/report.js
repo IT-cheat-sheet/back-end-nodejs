@@ -59,7 +59,7 @@ router.get("/getAll", auth,async (req, res) => {
         where: {
           readStatus: req.query.readStatus,
           [Op.or]: [{
-              '$summaryPost.summaryTitle$': {
+              '$summarypost.summaryTitle$': {
                 [Op.substring]: req.query.search
               }
             },
